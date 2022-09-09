@@ -18,13 +18,13 @@ For the MVP and initial assumption lets save the configuration versions locally
 ### 4. In general, how MCC will looks like?
 So we have users that can create configurations for certains applications. The configurations should be versioned and needs approval to be apply.
 
-- [ ] CRUD for User entity
-- [ ] CRUD for Configuration entity
-- [ ] CRUD for Application entity
+- [x] CRUD for User entity
+- [x] CRUD for Configuration entity
+- [x] CRUD for Application entity
 
 
 ### 5. How will you efficiently store the versions? Will you store the whole instance or just delta? Why?
 For the MVP I will save all instance in separeted json files locally. Why? the fastes why to validate the ideia.
 
 ### 6. What parts will you test? How? Why?
-The test should cover all the app, both frontend and backend
+The test should cover all the app, both frontend and backend 

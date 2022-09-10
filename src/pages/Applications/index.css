@@ -1,0 +1,10 @@
+.main-page__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-page__section {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,18 @@
+.primary {
+    background-color: var(--background-container-primary-teal);
+    color: var(--typography-primary-inverted);
+    font-size: var(--font-size-2-xs);
+    font-weight: 600;
+}
+
+.primary:hover {
+    border-color: transparent;
+    box-shadow: 0 0.125rem 0.25rem 0 var(--distinct-overlay);
+}
+
+.primary:active {
+    background-color: var(--background-container-dark-teal);
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--typography-primary-inverted);
+}

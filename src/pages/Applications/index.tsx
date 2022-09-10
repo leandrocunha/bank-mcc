@@ -1,16 +1,19 @@
-import { Header } from './../../components/Header';
-import { Sidebar } from './../../components/Sidebar';
+import { Button } from "../../components/Button"
+import { Empty } from "../../components/Empty";
+import { Heading } from "../../components/Heading"
+import { Page } from "../../components/Page"
+import './index.css';
 
 export const Applications = () => {
     return (
-        <>
-            <Header />
-            <section className="main">
-            <Sidebar />
-            <section className="content">
-                <h1>Applications</h1>
+        <Page>
+            <header className="main-page__header">
+                <Heading text="Applications" />
+                <Button label="New Application" />
+            </header>
+            <section className="main-page__section">
+                <Empty message="There is no Applications yet, try create a few clicking on the button above right." />
             </section>
-            </section>
-        </>
+        </Page>
     )
 }

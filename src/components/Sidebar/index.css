@@ -1,0 +1,4 @@
+.sidebar {
+    background-color: var(--background-container-primary-pressed);
+    width: 250px;
+}

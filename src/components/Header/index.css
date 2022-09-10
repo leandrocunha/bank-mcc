@@ -1,0 +1,15 @@
+.header {
+    align-items: center;
+    background-color: var(--background-container-tertiary-petrol);
+    display: flex;
+    font-weight: 600;
+    height: 60px;
+    padding: 0 16px;
+}
+
+.header__appName {
+    font-size: 26px;
+    margin-left: 8px;
+    border-left: #213547 2px solid;
+    padding-left: 8px;
+}

@@ -2,3 +2,21 @@
     background-color: var(--background-container-primary-pressed);
     width: 250px;
 }
+
+.navigation__list {
+    list-style: none;
+    margin: 0;
+    padding: 16px;
+}
+
+.navigation__list__item {
+    margin: 16px 0;
+}
+
+.navigation__list__item__link {
+    color: var(--typography-default);
+}
+
+.navigation__list__item__link:hover {
+    color: var(--typography-interactive-primary-teal-consistent);
+}

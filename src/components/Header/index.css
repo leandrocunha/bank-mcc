@@ -1,10 +1,18 @@
 .header {
-    align-items: center;
     background-color: var(--background-container-tertiary-petrol);
-    display: flex;
     font-weight: 600;
     height: 60px;
     padding: 0 16px;
+}
+
+.header,
+.header__linkWrapper {
+    align-items: center;
+    display: flex;
+}
+
+.header__linkWrapper {
+    color: var(--typography-default);
 }
 
 .header__appName {

@@ -1,21 +1,28 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 import './App.css'
-import { Header } from './components/Header'
-import { Sidebar } from './components/Sidebar'
+import { Applications } from './pages/Applications';
+import { Configurations } from './pages/Configurations';
+import { Home } from './pages/Home';
+import { Users } from './pages/Users';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <div className="App">
-      <Header />
-      <section className="main">
-        <Sidebar />
-        <section className="content">
-          {/* content here */}
-        </section>
-      </section>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/applications" element={<Applications />} />
+          <Route path="/configurations" element={<Configurations />} />
+          <Route path="/users" element={<Users />} />
+        </Routes>
+      </BrowserRouter>,
     </div>
   )
 }

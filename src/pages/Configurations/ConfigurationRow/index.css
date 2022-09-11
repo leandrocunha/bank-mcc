@@ -1,0 +1,26 @@
+.configuration-row {
+    border-bottom: var(--border-primary-gray) 1px solid;
+    padding: var(--spacing-m);
+}
+
+.configuration-row:last-child {
+    border-bottom: none;
+}
+
+.configuration-row__name {
+    padding-bottom: var(--spacing-3-xs);
+}
+
+.configuration-row__uuid,
+.configuration-row__created-at {
+    color: var(--typography-light);
+    padding-top: var(--spacing-5-xs);
+}
+
+.configuration-row__uuid {
+    font-style: italic;
+}
+
+.configuration-row__created-at {
+    display: inline-block;
+}

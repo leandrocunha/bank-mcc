@@ -1,16 +1,26 @@
-import { Header } from './../../components/Header';
-import { Sidebar } from './../../components/Sidebar';
+import { Route, Routes } from 'react-router-dom';
+import { ConfigurationsList } from './ConfigurationsList';
+import { ConfigurationsNew } from './ConfigurationsNew';
 
-export const Configurations = () => {
+export const Configurations = (): JSX.Element => {
     return (
-        <>
-            <Header />
-            <section className="main">
-            <Sidebar />
-            <section className="content">
-                <h1>Configurations</h1>
-            </section>
-            </section>
-        </>
+      <Routes>
+        <Route index element={<ConfigurationsList />} />
+        <Route path="new" element={<ConfigurationsNew />} />
+      </Routes>
     )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

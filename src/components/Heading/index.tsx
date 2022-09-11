@@ -2,7 +2,7 @@ import './index.css';
 
 interface IHeading {
     className?: string;
-    size: Sizes;
+    size?: Sizes;
     text?: string;
 }
 

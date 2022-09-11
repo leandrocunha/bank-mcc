@@ -34,11 +34,11 @@ export const ApplicationsNew = () => {
     return (
         <Page>
             <header className="main-page__header">
-                <Heading text="Applications" />
-                <Button label="Back" />
+                <Button className="main-page__header__button" label="Back" />
             </header>
             <section className="main-page__section">
                 <form className="form" onSubmit={handleOnSubmit}>
+                    <Heading className="form__title" size="h3" text="New Application" />
                     <input
                         className="input"
                         type="text"

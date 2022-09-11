@@ -1,7 +1,10 @@
 .main-page__header {
     align-items: center;
     display: flex;
-    justify-content: space-between;
+}
+
+.main-page__header__button {
+    margin-left: auto;
 }
 
 .main-page__section {
@@ -15,6 +18,11 @@
     border: var(--divider-default) 1px solid;
     border-radius: var(--border-radius-xl);
     padding: var(--spacing-m) var(--spacing-s);
+}
+
+.form__title {
+    padding: var(--spacing-m) 0;
+    text-align: center;
 }
 
 .form button {

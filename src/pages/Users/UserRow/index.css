@@ -1,0 +1,26 @@
+.user-row {
+    border-bottom: var(--border-primary-gray) 1px solid;
+    padding: var(--spacing-m);
+}
+
+.user-row:last-child {
+    border-bottom: none;
+}
+
+.user-row__name {
+    padding-bottom: var(--spacing-3-xs);
+}
+
+.user-row__uuid,
+.user-row__created-at {
+    color: var(--typography-light);
+    padding-top: var(--spacing-5-xs);
+}
+
+.user-row__uuid {
+    font-style: italic;
+}
+
+.user-row__created-at {
+    display: inline-block;
+}

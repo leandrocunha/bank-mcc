@@ -1,12 +1,19 @@
 import { createFile } from "../utils/fileHandler";
 
-interface IUser {
-    name: String;
-    email: String;
+export interface IUser {
+    uuid: string;
+    name: string;
+    email: string;
+    created_at: Date;
 };
 
+const PATH: string = './data/users/';
+
 export const createUser = (user: IUser): object => {
-    if(!user.name || !user.email) {
+    
+    const { uuid, email, name } = user;
+    
+    if(!name || !email) {
         return {
             statusText: 'error',
             statusCode: 200,
@@ -14,7 +21,8 @@ export const createUser = (user: IUser): object => {
         };
     }
 
-    createFile(JSON.stringify(user));
+    createFile(JSON.stringify(user), `${uuid}.json`, PATH);
+
     return {
         statusText: 'success',
         statusCode: 200,

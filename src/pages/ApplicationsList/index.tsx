@@ -1,6 +1,6 @@
+import fs from 'vite-plugin-fs/browser'
 import { MouseEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import fs from 'vite-plugin-fs/browser'
 import { ApplicationRow } from "../../components/ApplicationRow";
 import { Button } from "../../components/Button"
 import { Empty } from "../../components/Empty";

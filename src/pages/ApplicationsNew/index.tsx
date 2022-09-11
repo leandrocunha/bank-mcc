@@ -30,11 +30,19 @@ export const ApplicationsNew = () => {
             navigate('/applications')
         }
     }
+
+    const handleOnClick = ():void => {
+        navigate('/applications');
+    }
     
     return (
         <Page>
             <header className="main-page__header">
-                <Button className="main-page__header__button" label="Back" />
+                <Button
+                    className="main-page__header__button"
+                    label="Back"
+                    onClick={handleOnClick}
+                />
             </header>
             <section className="main-page__section">
                 <form className="form" onSubmit={handleOnSubmit}>

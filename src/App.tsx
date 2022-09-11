@@ -19,7 +19,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="applications/*" element={<Applications />} />
           <Route path="configurations" element={<Configurations />} />
-          <Route path="users" element={<Users />} />
+          <Route path="users/*" element={<Users />} />
         </Routes>
       </BrowserRouter>
     </div>

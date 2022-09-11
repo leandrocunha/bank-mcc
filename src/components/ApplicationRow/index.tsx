@@ -29,7 +29,7 @@ export const ApplicationRow = (props: IProps): JSX.Element => {
     
     return (
         <div className="application-row">
-            <Heading text={data?.name} />
+            <Heading className="application-row__name" size="h5" text={data?.name} />
             <p className="application-row__uuid">{data?.uuid}</p>
            <TimeAgo className="application-row__created-at" date={data?.created_at} />
         </div>

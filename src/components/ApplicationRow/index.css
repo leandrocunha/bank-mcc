@@ -7,10 +7,14 @@
     border-bottom: none;
 }
 
+.application-row__name {
+    padding-bottom: var(--spacing-3-xs);
+}
+
 .application-row__uuid,
 .application-row__created-at {
     color: var(--typography-light);
-    padding: var(--spacing-xs) 0;
+    padding-top: var(--spacing-5-xs);
 }
 
 .application-row__uuid {

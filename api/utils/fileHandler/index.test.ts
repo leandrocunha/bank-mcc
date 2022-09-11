@@ -7,8 +7,8 @@ const spy = vi.spyOn(fs, 'writeFile');
 describe('fileHandler', () => {
     it('should create a file', () => {
         const mockContent = 'My awesome content';
-        const result = createFile(mockContent);
+        const result = createFile(mockContent, 'myfilename.json', './data/');
         expect(spy).toHaveBeenCalled()
-        // expect(result).toBeTruthy();
+        expect(result).toBeTruthy();
     })
 })

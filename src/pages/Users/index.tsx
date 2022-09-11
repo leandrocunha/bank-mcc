@@ -1,7 +1,8 @@
+import React from 'react';
 import { Header } from './../../components/Header';
 import { Sidebar } from './../../components/Sidebar';
 
-export const Users = () => {
+export const Users = (): JSX.Element => {
     return (
         <>
         <Header />

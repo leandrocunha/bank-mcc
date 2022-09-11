@@ -1,9 +1,26 @@
+import { createFile } from '../utils/fileHandler'
+
 export interface IApplication {
-    id: String;
-    name: String;
+    uuid: string;
+    name: string | undefined;
+    created_at: Date;
 }
 
-export const createApplication = (data: IApplication): String => {
+const PATH: string = './data/applications/';
+
+export const createApplication = (payload: IApplication): Object => {
+    const { uuid, name, created_at} = payload;
+
+    if(!uuid && !name && !created_at) {
+        return {
+            statusText: 'error',
+            statusCode: 200,
+            statusMessage: 'Application did not create.'
+        };
+    }
+
+    createFile(JSON.stringify(payload), uuid, PATH)
+    
     return 'Application created succesfuly!'
 }
 

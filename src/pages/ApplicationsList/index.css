@@ -1,0 +1,17 @@
+.main-page__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-page__section {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-m);
+}
+
+.application-row--wrapper {
+    border: var(--border-primary-gray) 1px solid;
+    border-radius: var(--border-radius-l);
+    width: var(--width-7-xl);
+}

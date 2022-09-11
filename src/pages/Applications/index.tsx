@@ -1,16 +1,12 @@
-import { Header } from './../../components/Header';
-import { Sidebar } from './../../components/Sidebar';
+import { Route, Routes } from "react-router-dom"
+import { ApplicationsList } from "../ApplicationsList";
+import { ApplicationsNew } from "../ApplicationsNew";
 
 export const Applications = () => {
     return (
-        <>
-            <Header />
-            <section className="main">
-            <Sidebar />
-            <section className="content">
-                <h1>Applications</h1>
-            </section>
-            </section>
-        </>
+        <Routes>
+            <Route index element={<ApplicationsList />} />
+            <Route path="new" element={<ApplicationsNew />} />
+        </Routes>
     )
 }

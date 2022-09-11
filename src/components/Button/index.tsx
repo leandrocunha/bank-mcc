@@ -1,18 +1,20 @@
 import { ButtonHTMLAttributes, MouseEventHandler } from 'react';
 import './index.css';
 
-interface IButton {
+interface IProps {
+    className?: string;
     label: string;
     onClick?: MouseEventHandler<HTMLButtonElement>
     type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 
-export const Button = (props: IButton): JSX.Element => {
-    const { label, onClick, type = 'button' } = props;
+export const Button = (props: IProps): JSX.Element => {
+    const { className, label, onClick, type = 'button' } = props;
+    const composedClassName =`primary ${className}`;
     
     return (
         <button
-            className="primary"
+            className={composedClassName}
             onClick={onClick}
             type={type}
         >

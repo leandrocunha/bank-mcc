@@ -1,10 +1,8 @@
 import fs from 'vite-plugin-fs/browser';
 
-const PATH = './data/users.json';
-
-export const createFile = (content: string): boolean => {
+export const createFile = (content: string, filename: string, path: string): boolean => {
     try {
-        fs.writeFile(PATH, content);
+        fs.writeFile(`${path}${filename}`, content);
     } catch (error) {
         throw new Error(`error: ${error}`);
     }

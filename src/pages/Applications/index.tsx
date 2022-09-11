@@ -1,19 +1,12 @@
-import { Button } from "../../components/Button"
-import { Empty } from "../../components/Empty";
-import { Heading } from "../../components/Heading"
-import { Page } from "../../components/Page"
-import './index.css';
+import { Route, Routes } from "react-router-dom"
+import { ApplicationsList } from "../ApplicationsList";
+import { ApplicationsNew } from "../ApplicationsNew";
 
 export const Applications = () => {
     return (
-        <Page>
-            <header className="main-page__header">
-                <Heading text="Applications" />
-                <Button label="New Application" />
-            </header>
-            <section className="main-page__section">
-                <Empty message="There is no Applications yet, try create a few clicking on the button above right." />
-            </section>
-        </Page>
+        <Routes>
+            <Route index element={<ApplicationsList />} />
+            <Route path="new" element={<ApplicationsNew />} />
+        </Routes>
     )
 }

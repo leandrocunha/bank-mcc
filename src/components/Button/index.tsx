@@ -1,9 +1,9 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, MouseEventHandler } from 'react';
 import './index.css';
 
 interface IButton {
     label: string;
-    onClick?: () => void;
+    onClick?: MouseEventHandler<HTMLButtonElement>
     type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 

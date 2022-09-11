@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { useNavigate } from "react-router-dom"
 import { Button } from "../../components/Button"
 import { Empty } from "../../components/Empty";
@@ -8,9 +9,8 @@ import './index.css';
 export const ApplicationsList = () => {
     const navigate = useNavigate();
 
-    const handleOnclick = (event) => {
+    const handleOnclick = (event: MouseEvent<HTMLButtonElement>): void => {
         event.preventDefault();
-        console.log('test')
         navigate("/applications/new");
     }
 

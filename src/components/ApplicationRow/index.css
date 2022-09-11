@@ -1,0 +1,22 @@
+.application-row {
+    border-bottom: var(--border-primary-gray) 1px solid;
+    padding: var(--spacing-m);
+}
+
+.application-row:last-child {
+    border-bottom: none;
+}
+
+.application-row__uuid,
+.application-row__created-at {
+    color: var(--typography-light);
+    padding: var(--spacing-xs) 0;
+}
+
+.application-row__uuid {
+    font-style: italic;
+}
+
+.application-row__created-at {
+    display: inline-block;
+}

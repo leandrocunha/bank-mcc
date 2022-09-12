@@ -1,4 +1,4 @@
-import { createFile } from "../utils/fileHandler";
+import { IResponseError } from "../Application";
 
 export interface IConfiguration {
     uuid: string;
@@ -8,9 +8,16 @@ export interface IConfiguration {
     created_at: Date
 }
 
+export interface IResponseSuccess {
+    statusText: string;
+    statusCode: number;
+    statusMessage: string;
+    data: object
+}
+
 const PATH = './data/configurations/'
 
-export const createConfiguration = (config: IConfiguration): object => {
+export const createConfiguration = (config: IConfiguration): IResponseError | Function => {
 
     const { uuid, application, author, type } = config;
     
@@ -22,12 +29,13 @@ export const createConfiguration = (config: IConfiguration): object => {
         };
     }
 
-    createFile(JSON.stringify(config), `${uuid}.json`, PATH);
-
-    return {
-        statusText: 'success',
-        statusCode: 200,
-        statusMessage: 'Configuration created with successful!',
-        data: config
-    };
+    return (createFile: Function): IResponseSuccess => {
+        createFile(JSON.stringify(config), `${uuid}.json`, PATH);
+        return {
+            statusText: 'success',
+            statusCode: 200,
+            statusMessage: 'Configuration created with successful!',
+            data: config
+        };
+    }
 }

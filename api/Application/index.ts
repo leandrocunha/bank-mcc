@@ -1,4 +1,4 @@
-import { createFile } from '../utils/fileHandler'
+// import { createFile } from '../utils/fileHandler'
 
 export interface IApplication {
     uuid: string;
@@ -6,9 +6,15 @@ export interface IApplication {
     created_at: Date;
 }
 
+export interface IResponseError {
+    statusText: string;
+    statusCode: number;
+    statusMessage: string;
+}
+
 const PATH: string = './data/applications/';
 
-export const createApplication = (payload: IApplication): Object => {
+export const createApplication = (payload: IApplication): (IResponseError | Function) => {
     const { uuid, name, created_at} = payload;
 
     if(!uuid && !name && !created_at) {
@@ -16,12 +22,13 @@ export const createApplication = (payload: IApplication): Object => {
             statusText: 'error',
             statusCode: 200,
             statusMessage: 'Application did not create.'
-        };
+        }
     }
 
-    createFile(JSON.stringify(payload), uuid, PATH)
-    
-    return 'Application created succesfuly!'
+    return (createFile: Function): string => {
+        createFile(JSON.stringify(payload), uuid, PATH)
+        return 'Application created succesfuly!'
+    }
 }
 
 export const updateApplication = (data: IApplication): String => {

@@ -1,5 +1,6 @@
 import { IResponseError } from "../Application";
 import { IResponseSuccess } from "../Configuration";
+import { readDir } from "../utils/fileHandler";
 
 export interface IUser {
     uuid: string;
@@ -31,6 +32,21 @@ export const createUser = (user: IUser): IResponseError | Function => {
             data: user
         };
     }
+}
+
+export const listUsers = async (dirPath: string) => {
+    
+    if(!dirPath) {
+        return {
+            statusText: 'error',
+            statusCode: 200,
+            statusMessage: 'Missing Users directory path.'
+        };
+    }
+
+    const result = await readDir(dirPath);
+
+    return { ...result, data: result.data?.map(uuid => ({ uuid, name: uuid }))}
 }
 
 export const updateUser = (user: IUser): IUser => {

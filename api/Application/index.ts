@@ -1,4 +1,5 @@
-// import { createFile } from '../utils/fileHandler'
+import { readDir } from "../utils/fileHandler";
+import { SimpleDirent } from "../utils/types";
 
 export interface IApplication {
     uuid: string;
@@ -29,6 +30,20 @@ export const createApplication = (payload: IApplication): (IResponseError | Func
         createFile(JSON.stringify(payload), uuid, PATH)
         return 'Application created succesfuly!'
     }
+}
+
+export const listApplication = async (dirPath: string) => {
+    if(!dirPath) {
+        return {
+            statusText: 'error',
+            statusCode: 200,
+            statusMessage: 'Missing a directory path for applications.'
+        }
+    }
+    
+    const result = await readDir(dirPath);
+    
+    return { ...result, data: result.data?.map(uuid => ({ uuid, name: uuid }))}
 }
 
 export const updateApplication = (data: IApplication): String => {

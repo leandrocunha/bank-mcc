@@ -1,9 +1,10 @@
 import fs from 'vite-plugin-fs/browser';
+import { IReadDirAPIResponse, SimpleDirent } from '../types'
 
 export interface IResponse {
     statusCode: number
     statusMessage: string
-    data: string | null
+    data: SimpleDirent | string | null
     error: boolean
 }
 
@@ -35,4 +36,23 @@ export const readFile = async (filePath: string): Promise<IResponse> => {
         }
     }
 
+}
+
+export const readDir = async (dirPath: string): Promise<IReadDirAPIResponse> => {
+    try {
+        const files = await fs.readdir(dirPath);
+        return {
+            statusCode: 200,
+            statusMessage: 'Success',
+            data: files,
+            error: false
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            statusMessage: 'Error',
+            data: null,
+            error: true
+        }
+    }
 }

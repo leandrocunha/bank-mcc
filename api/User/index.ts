@@ -1,6 +1,6 @@
 import { IResponseError } from "../Application";
 import { IResponseSuccess } from "../Configuration";
-import { readDir } from "../utils/fileHandler";
+import { readDir, readFile } from "../utils/fileHandler";
 
 export interface IUser {
     uuid: string;
@@ -44,9 +44,16 @@ export const listUsers = async (dirPath: string) => {
         };
     }
 
-    const result = await readDir(dirPath);
+    const userFiles = await readDir(dirPath);
 
-    return { ...result, data: result.data?.map(uuid => ({ uuid, name: uuid }))}
+    const users = await Promise.all(userFiles.data.map(async (file) => {
+        const fileContent = await readFile(`${dirPath}${file}`);
+        if(fileContent.data){
+            return JSON.parse(fileContent.data)
+        }
+    }))
+    
+    return { ...userFiles, data: users }
 }
 
 export const updateUser = (user: IUser): IUser => {

@@ -1,0 +1,16 @@
+.select {
+    border: var(--divider-default) 1px solid;
+    color: var(--typography-default);
+    border-radius: var(--border-radius-l);
+    outline-style: none;
+    padding: var(--spacing-xs);
+    line-height: 1.3333333333333333;
+    font-size: var(--font-size-s);
+    box-shadow: none;
+    margin-bottom: var(--spacing-s);
+    width: 100%;
+}
+
+.select:focus {
+    border-color: var(--divider-teal);
+}

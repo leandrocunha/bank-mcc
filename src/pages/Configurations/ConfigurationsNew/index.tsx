@@ -1,17 +1,30 @@
-import React, { createRef } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
+import { createConfiguration, IConfiguration } from "../../../../api/Configuration"
 import { Page } from "../../../components/Page";
 import { Button } from "../../../components/Button"
 import { Heading } from "../../../components/Heading"
-import { createConfiguration, IConfiguration } from "../../../../api/Configuration"
+import { Select } from "../../../components/Form/Select";
 import './index.css';
+import { listApplication } from "../../../../api/Application";
+import { listUsers } from "../../../../api/User";
+
+const APPLICATION_PATH = './data/applications/';
+const USERS_PATH = './data/users/';
+const CONFIGURATIONS_TYPE = [
+    { uuid: '123-abc', name: 'Metadata' },
+    { uuid: '321-cde', name: 'Thecnical Data' }
+]
 
 export const ConfigurationsNew = () => {
+
+    const [applications, setApplications] = useState([])
+    const [authors, setAuthors] = useState([])
     
-    const inputAuthorRef = createRef<HTMLInputElement>()
-    const inputTypeRef = createRef<HTMLInputElement>()
-    const inputApplicationRef = createRef<HTMLInputElement>()
+    const inputAuthorRef = createRef<HTMLSelectElement>()
+    const inputTypeRef = createRef<HTMLSelectElement>()
+    const inputApplicationRef = createRef<HTMLSelectElement>()
 
     const navigate = useNavigate();
 
@@ -40,6 +53,16 @@ export const ConfigurationsNew = () => {
     const handleOnClick = ():void => {
         navigate('/configurations');
     }
+
+    useEffect(() => {
+            Promise.all([
+                listApplication(APPLICATION_PATH),
+                listUsers(USERS_PATH)
+            ]).then(async (values) => {
+                await setApplications(values[0]['data'])
+                await setAuthors(values[1]['data'])
+              });
+    }, []);
     
     return (
         <Page>
@@ -57,24 +80,21 @@ export const ConfigurationsNew = () => {
                         size="h3"
                         text="New Configuration"
                     />
-                    <input
-                        className="input"
-                        type="text"
+                    <Select
                         name="application"
+                        options={applications}
                         placeholder="Application"
                         ref={inputApplicationRef}
                     />
-                    <input
-                        className="input"
-                        type="text"
+                    <Select
                         name="author"
+                        options={authors}
                         placeholder="Author"
                         ref={inputAuthorRef}
                     />
-                    <input
-                        className="input"
-                        type="text"
+                    <Select
                         name="type"
+                        options={CONFIGURATIONS_TYPE}
                         placeholder="Type"
                         ref={inputTypeRef}
                     />                    

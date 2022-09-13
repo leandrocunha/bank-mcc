@@ -28,7 +28,7 @@ export const ConfigurationsNew = () => {
 
     const navigate = useNavigate();
 
-    const handleOnSubmit = (event:React.FormEvent<HTMLFormElement>): void => {
+    const handleOnSubmit = async (event:React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         
         const author: string | undefined = inputAuthorRef.current?.value;
@@ -45,7 +45,7 @@ export const ConfigurationsNew = () => {
                 application,
                 created_at
             };
-            createConfiguration(payload);
+            await createConfiguration(payload);
             navigate('/configurations')
         }
     }

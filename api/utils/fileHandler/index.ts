@@ -7,9 +7,9 @@ export interface IResponse {
     error: boolean
 }
 
-export const createFile = (content: string, filename: string, path: string): boolean => {
+export const createFile = async(content: string, filename: string, path: string): boolean => {
     try {
-        fs.writeFile(`${path}${filename}`, content);
+        await fs.writeFile(`${path}${filename}`, content);
     } catch (error) {
         throw new Error(`error: ${error}`);
     }

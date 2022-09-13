@@ -1,4 +1,4 @@
-import { readDir } from "../utils/fileHandler";
+import { readDir, readFile } from "../utils/fileHandler";
 import { SimpleDirent } from "../utils/types";
 
 export interface IApplication {
@@ -41,9 +41,15 @@ export const listApplication = async (dirPath: string) => {
         }
     }
     
-    const result = await readDir(dirPath);
+    const applicationFiles = await readDir(dirPath);
+    const applications = await Promise.all(applicationFiles.data.map(async (file) => {
+        const fileContent = await readFile(`${dirPath}${file}`);
+        if(fileContent.data){
+            return JSON.parse(fileContent.data)
+        }
+    }))
     
-    return { ...result, data: result.data?.map(uuid => ({ uuid, name: uuid }))}
+    return { ...applicationFiles, data: applications }
 }
 
 export const updateApplication = (data: IApplication): String => {

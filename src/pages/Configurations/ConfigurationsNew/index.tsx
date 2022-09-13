@@ -13,8 +13,8 @@ import { listUsers } from "../../../../api/User";
 const APPLICATION_PATH = './data/applications/';
 const USERS_PATH = './data/users/';
 const CONFIGURATIONS_TYPE = [
-    { uuid: '123-abc', name: 'Metadata' },
-    { uuid: '321-cde', name: 'Thecnical Data' }
+    { uuid: '631793d9-meta-data-b9ca-96628afef44d', name: 'Metadata' },
+    { uuid: '7dd6ec8f-tech-nica-ldat-ac51e84bd6a2', name: 'Technical Data' }
 ]
 
 export const ConfigurationsNew = () => {

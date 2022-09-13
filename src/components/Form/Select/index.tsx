@@ -20,7 +20,7 @@ export const Select = React.forwardRef<HTMLSelectElement, IProps>((props, ref): 
             </option>
             {
                 options.map(({ uuid, name }) =>
-                    <option key={uuid} defaultValue={uuid}>{name}</option>       
+                    <option key={uuid} value={uuid}>{name}</option>       
                 )
             }
         </select>

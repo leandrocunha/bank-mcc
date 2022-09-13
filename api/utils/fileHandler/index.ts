@@ -8,14 +8,13 @@ export interface IResponse {
     error: boolean
 }
 
-export const createFile = async(content: string, filename: string, path: string): boolean => {
+export const createFile = async(content: string, filename: string, path: string): Promise<object> => {
     try {
-        await fs.writeFile(`${path}${filename}`, content);
+        await fs.writeFile(`${path}${filename}`, content)
+        return JSON.parse(content)
     } catch (error) {
         throw new Error(`error: ${error}`);
     }
-
-    return true
 }
 
 export const readFile = async (filePath: string): Promise<IResponse> => {

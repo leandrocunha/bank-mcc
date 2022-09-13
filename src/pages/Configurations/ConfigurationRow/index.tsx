@@ -34,7 +34,11 @@ export const ConfigurationRow = (props: IProps): JSX.Element => {
         <div className="configuration-row">
             <Heading className="configuration-row__name" size="h5" text={data?.application} />
             <p className="configuration-row__uuid">{data?.uuid}</p>
-           <TimeAgo className="configuration-row__created-at" date={data?.created_at} />
+           <TimeAgo
+            className="configuration-row__created-at"
+            date={data?.created_at}
+            live={false}
+            />
         </div>
     )
 }

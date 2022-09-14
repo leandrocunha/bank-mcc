@@ -1,5 +1,5 @@
 import { IResponseError } from "../Application";
-import { createFile } from "../utils/fileHandler";
+import { createFile, readDir, readFile } from "../utils/fileHandler";
 
 export interface IConfiguration {
     uuid: string
@@ -20,6 +20,7 @@ export interface IResponseSuccess {
 }
 
 const PATH = './data/configurations/'
+const SNAPSHOT_PATH = './data/snapshots/'
 
 export const createConfiguration = async (config: IConfiguration): Promise<IResponseError | IResponseSuccess> => {
 
@@ -31,7 +32,14 @@ export const createConfiguration = async (config: IConfiguration): Promise<IResp
         owner,
         manager
     } = config;
+
+    const cleanedOwner = (owner && owner !== 'Owner') ? owner : undefined
+    const cleanedManager = (manager && manager !== 'Manager') ? manager : undefined
+    const cleanedConfig = { ...config, owner: cleanedOwner, manager: cleanedManager }
     
+    Object.keys(cleanedConfig).forEach(key => cleanedConfig[key] === undefined && delete cleanedConfig[key])
+    
+    console.log(cleanedConfig);
     if(!uuid || !application || !type) {
         return {
             statusText: 'error',
@@ -40,7 +48,8 @@ export const createConfiguration = async (config: IConfiguration): Promise<IResp
         };
     }
 
-    await createFile(JSON.stringify(config), `${uuid}.json`, PATH);
+    await createFile(JSON.stringify(cleanedConfig), `${uuid}.json`, PATH);
+    await createSnapshot(JSON.stringify(cleanedConfig), application);
     
     return {
         statusText: 'success',
@@ -48,4 +57,18 @@ export const createConfiguration = async (config: IConfiguration): Promise<IResp
         statusMessage: 'Configuration created with successful!',
         data: config
     };
+}
+
+export const createSnapshot = async (fileContent: string, application: string): Promise<any> => {
+    const snapshotFile = await readFile(`${SNAPSHOT_PATH}${application}-snapshot.json`);
+
+    if(snapshotFile.error) {
+        await createFile(fileContent, `${application}-snapshot.json`, SNAPSHOT_PATH)
+    }
+
+    const previousSnapshotFileContent = JSON.parse(snapshotFile.data);
+    const newConfiguration = JSON.parse(fileContent);
+    const newSnapshotFileContent = { ...previousSnapshotFileContent, ...newConfiguration }
+
+    await createFile(JSON.stringify(newSnapshotFileContent), `${application}-snapshot.json`, SNAPSHOT_PATH)
 }

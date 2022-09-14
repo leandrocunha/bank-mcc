@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from "react";
+import React, { ChangeEventHandler, SetStateAction, useState } from "react";
 import './index.css';
 
 interface IProps {
@@ -11,14 +11,22 @@ interface IProps {
 export const Select = React.forwardRef<HTMLSelectElement, IProps>((props, ref): JSX.Element => {
     const { name, onChange, options, placeholder } = props;
     
+    const [value, setValue] = useState<string | undefined>(undefined);
+    
+    const handleOnChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setValue(event.target.value)
+        return onChange && onChange(event)
+    }
+
     return (
         <select
             className="select"
+            defaultValue={value}
             name={name}
-            onChange={onChange}
+            onChange={handleOnChange}
             ref={ref}
         >
-            <option defaultValue={placeholder}  selected={true} disabled hidden>
+            <option value={undefined} disabled selected>
                 {placeholder}
             </option>
             {

@@ -16,31 +16,38 @@ const CONFIGURATIONS_TYPE = [
     { uuid: '631793d9-meta-data-b9ca-96628afef44d', name: 'Metadata' },
     { uuid: '7dd6ec8f-tech-nica-ldat-ac51e84bd6a2', name: 'Technical Data' }
 ]
+const CONFIGURATIONS_ROLE = [
+    { uuid: '631793d9-admi-nist-rato-r6628afef44d', name: 'Administrator' },
+    { uuid: '9db4ff57-edit-orca-8c4a-108d4cbf5902', name: 'Editor' },
+    { uuid: '7dd6ec8f-read-only-9091-3c51e84bd6a2', name: 'Read-Only' }
+]
 
 export const ConfigurationsNew = () => {
 
     const [applications, setApplications] = useState([])
     const [authors, setAuthors] = useState([])
     
-    const inputAuthorRef = createRef<HTMLSelectElement>()
-    const inputTypeRef = createRef<HTMLSelectElement>()
     const inputApplicationRef = createRef<HTMLSelectElement>()
+    const inputOwnerRef = createRef<HTMLSelectElement>()
+    const inputTypeRef = createRef<HTMLSelectElement>()
+    const inputManagerRef = createRef<HTMLSelectElement>()
+    const inputRoleRef= createRef<HTMLSelectElement>()
 
     const navigate = useNavigate();
 
     const handleOnSubmit = async (event:React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         
-        const author: string | undefined = inputAuthorRef.current?.value;
+        const owner: string | undefined = inputOwnerRef.current?.value;
         const type: string | undefined = inputTypeRef.current?.value;
         const application: string | undefined = inputApplicationRef.current?.value;
         const uuid: string = uuidv4();
         const created_at: Date = new Date();
         
-        if(author && type && application) {
+        if(owner && type && application) {
             const payload: IConfiguration = {
                 uuid,
-                author,
+                owner,
                 type,
                 application,
                 created_at
@@ -87,17 +94,38 @@ export const ConfigurationsNew = () => {
                         ref={inputApplicationRef}
                     />
                     <Select
-                        name="author"
-                        options={authors}
-                        placeholder="Author"
-                        ref={inputAuthorRef}
-                    />
-                    <Select
                         name="type"
+                        onChange={handleOnChange}
                         options={CONFIGURATIONS_TYPE}
                         placeholder="Type"
                         ref={inputTypeRef}
-                    />                    
+                    />
+                    <hr className="form__divider" />
+                    <input
+                        className="input"
+                        name="name"
+                        placeholder="New name"
+                        type="text"
+                    />
+                    <Select
+                        name="owner"
+                        options={authors}
+                        placeholder="Owner"
+                        ref={inputOwnerRef}
+                    />
+                    <Select
+                        name="manager"
+                        options={authors}
+                        placeholder="Manager"
+                        ref={inputManagerRef}
+                    />
+
+                    <Select
+                        name="role"
+                        options={CONFIGURATIONS_ROLE}
+                        placeholder="Role"
+                        ref={inputRoleRef}
+                    />
                     <Button label="Create Configuration" type="submit" />
                 </form>
             </section>

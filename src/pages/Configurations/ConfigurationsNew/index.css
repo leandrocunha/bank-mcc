@@ -1,0 +1,9 @@
+.form {
+    max-width: var(--width-l);
+}
+
+.form__divider {
+    background-color: rgba(233, 233, 233);
+    border-top: none;
+    margin: 10px 0 20px;
+}

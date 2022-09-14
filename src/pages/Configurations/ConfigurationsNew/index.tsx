@@ -48,7 +48,7 @@ export const ConfigurationsNew = () => {
         const uuid: string = uuidv4();
         const application: string | undefined = inputApplicationRef.current?.value;
         const type: string | undefined = inputTypeRef.current?.value;
-        const name: string | undefined = inputNewNameRef.current?.value;
+        const name: string | undefined = inputNewNameRef.current?.value === '' ?  undefined : inputNewNameRef.current?.value;
         const owner: string | undefined = inputOwnerRef.current?.value;
         const manager: string | undefined = inputManagerRef.current?.value;
         const role: string | undefined = inputRoleRef.current?.value;

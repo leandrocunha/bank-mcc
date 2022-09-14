@@ -20,7 +20,6 @@ export const ApplicationsDetails = props => {
     useEffect(() => {
         (async () => {
             const result = await loadApplication(`${PATH}/${uuid}`)
-            console.log(result)
             result?.data && setApplication(result.data)
         })()
     }, []);

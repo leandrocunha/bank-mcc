@@ -1,5 +1,4 @@
-import { readDir, readFile } from "../utils/fileHandler";
-import { SimpleDirent } from "../utils/types";
+import { IResponse, readDir, readFile } from "../utils/fileHandler";
 
 export interface IApplication {
     uuid: string;
@@ -50,6 +49,20 @@ export const listApplication = async (dirPath: string) => {
     }))
     
     return { ...applicationFiles, data: applications }
+}
+
+export const loadApplication = async (dirFile: string):Promise<IResponseError | IResponse> => {
+    if(!dirFile) {
+        return {
+            statusText: 'error',
+            statusCode: 200,
+            statusMessage: 'Missing a directory path for the application file.'
+        }
+    }
+
+    const result = await readFile(dirFile);
+
+    return { ...result, data: JSON.parse(result.data) }
 }
 
 export const updateApplication = (data: IApplication): String => {

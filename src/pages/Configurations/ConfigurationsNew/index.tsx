@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, { ChangeEvent, createRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import { createConfiguration, IConfiguration } from "../../../../api/Configuration"
@@ -10,9 +10,14 @@ import './index.css';
 import { listApplication } from "../../../../api/Application";
 import { listUsers } from "../../../../api/User";
 
+type configurationType = {
+    uuid: string
+    name: string
+} | undefined
+
 const APPLICATION_PATH = './data/applications/';
 const USERS_PATH = './data/users/';
-const CONFIGURATIONS_TYPE = [
+const CONFIGURATIONS_TYPE: Array<configurationType> = [
     { uuid: '631793d9-meta-data-b9ca-96628afef44d', name: 'Metadata' },
     { uuid: '7dd6ec8f-tech-nica-ldat-ac51e84bd6a2', name: 'Technical Data' }
 ]
@@ -26,6 +31,7 @@ export const ConfigurationsNew = () => {
 
     const [applications, setApplications] = useState([])
     const [authors, setAuthors] = useState([])
+    const [configurationType, setConfigurationType] = useState<configurationType>();
     
     const inputApplicationRef = createRef<HTMLSelectElement>()
     const inputOwnerRef = createRef<HTMLSelectElement>()
@@ -59,6 +65,12 @@ export const ConfigurationsNew = () => {
 
     const handleOnClick = ():void => {
         navigate('/configurations');
+    }
+
+    const handleOnChange = (event: ChangeEvent<HTMLSelectElement>):void => {
+        const selected_uuid = event?.target?.value;
+        const selectedType = CONFIGURATIONS_TYPE.find(type => type?.uuid === selected_uuid)
+        setConfigurationType(selectedType);
     }
 
     useEffect(() => {
@@ -100,32 +112,46 @@ export const ConfigurationsNew = () => {
                         placeholder="Type"
                         ref={inputTypeRef}
                     />
-                    <hr className="form__divider" />
-                    <input
-                        className="input"
-                        name="name"
-                        placeholder="New name"
-                        type="text"
-                    />
-                    <Select
-                        name="owner"
-                        options={authors}
-                        placeholder="Owner"
-                        ref={inputOwnerRef}
-                    />
-                    <Select
-                        name="manager"
-                        options={authors}
-                        placeholder="Manager"
-                        ref={inputManagerRef}
-                    />
-
-                    <Select
-                        name="role"
-                        options={CONFIGURATIONS_ROLE}
-                        placeholder="Role"
-                        ref={inputRoleRef}
-                    />
+                    {
+                        typeof configurationType === 'object' && (
+                            <>
+                                <hr className="form__divider" />
+                                {
+                                    configurationType?.name === 'Metadata' ? (
+                                        <>
+                                            <input
+                                                className="input"
+                                                name="name"
+                                                placeholder="New name"
+                                                type="text"
+                                            />
+                                            <Select
+                                                name="owner"
+                                                options={authors}
+                                                placeholder="Owner"
+                                                ref={inputOwnerRef}
+                                            />
+                                            <Select
+                                                name="manager"
+                                                options={authors}
+                                                placeholder="Manager"
+                                                ref={inputManagerRef}
+                                            />
+                                        </>
+                                    ) : (
+                                        configurationType?.name === 'Technical Data' && (
+                                            <Select
+                                                name="role"
+                                                options={CONFIGURATIONS_ROLE}
+                                                placeholder="Role"
+                                                ref={inputRoleRef}
+                                            />
+                                        )
+                                    )
+                                }
+                            </>
+                        )
+                    }
                     <Button label="Create Configuration" type="submit" />
                 </form>
             </section>

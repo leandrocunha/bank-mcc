@@ -1,18 +1,21 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 import './index.css';
 
 interface IProps {
     name: string
+    onChange?: ChangeEventHandler<HTMLSelectElement>,
     options: Array<any>
     placeholder: string
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, IProps>((props, ref): JSX.Element => {
-    const { name, options, placeholder } = props;
+    const { name, onChange, options, placeholder } = props;
+    
     return (
         <select
             className="select"
             name={name}
+            onChange={onChange}
             ref={ref}
         >
             <option defaultValue={placeholder}  selected={true} disabled hidden>

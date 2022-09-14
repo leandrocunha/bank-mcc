@@ -6,7 +6,7 @@ import { Heading } from "../../../components/Heading"
 import { Page } from "../../../components/Page"
 import './index.css'
 
-const PATH = './data/applications';
+const PATH = './data/snapshots';
 
 export const ApplicationsDetails = props => {
     const [ application, setApplication ] = useState();
@@ -19,7 +19,7 @@ export const ApplicationsDetails = props => {
 
     useEffect(() => {
         (async () => {
-            const result = await loadApplication(`${PATH}/${uuid}`)
+            const result = await loadApplication(`${PATH}/${uuid}-snapshot.json`)
             result?.data && setApplication(result.data)
         })()
     }, []);
@@ -44,6 +44,18 @@ export const ApplicationsDetails = props => {
                         <div className="application-details__header__item">
                             <span className="application-details__header__item__label">Created at:</span>
                             {application?.created_at}
+                        </div>
+                        <div className="application-details__header__item">
+                            <span className="application-details__header__item__label">Owner:</span>
+                            {application?.owner ?? ' - '}
+                        </div>
+                        <div className="application-details__header__item">
+                            <span className="application-details__header__item__label">Manager:</span>
+                            {application?.manager ?? ' - '}
+                        </div>
+                        <div className="application-details__header__item">
+                            <span className="application-details__header__item__label">Role:</span>
+                            {application?.role ?? ' - '}
                         </div>
                     </header>
                     <main className="application-details__table">

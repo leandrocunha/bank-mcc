@@ -34,28 +34,35 @@ export const ConfigurationsNew = () => {
     const [configurationType, setConfigurationType] = useState<configurationType>();
     
     const inputApplicationRef = createRef<HTMLSelectElement>()
-    const inputOwnerRef = createRef<HTMLSelectElement>()
     const inputTypeRef = createRef<HTMLSelectElement>()
+    const inputNewNameRef = createRef<HTMLInputElement>()
+    const inputOwnerRef = createRef<HTMLSelectElement>()
     const inputManagerRef = createRef<HTMLSelectElement>()
     const inputRoleRef= createRef<HTMLSelectElement>()
 
     const navigate = useNavigate();
 
-    const handleOnSubmit = async (event:React.FormEvent<HTMLFormElement>): void => {
+    const handleOnSubmit = async (event:React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
         
-        const owner: string | undefined = inputOwnerRef.current?.value;
-        const type: string | undefined = inputTypeRef.current?.value;
-        const application: string | undefined = inputApplicationRef.current?.value;
         const uuid: string = uuidv4();
+        const application: string | undefined = inputApplicationRef.current?.value;
+        const type: string | undefined = inputTypeRef.current?.value;
+        const name: string | undefined = inputNewNameRef.current?.value;
+        const owner: string | undefined = inputOwnerRef.current?.value;
+        const manager: string | undefined = inputManagerRef.current?.value;
+        const role: string | undefined = inputRoleRef.current?.value;
         const created_at: Date = new Date();
         
         if(owner && type && application) {
             const payload: IConfiguration = {
                 uuid,
-                owner,
-                type,
                 application,
+                type,
+                name,
+                owner,
+                manager,
+                role,
                 created_at
             };
             await createConfiguration(payload);
@@ -123,6 +130,7 @@ export const ConfigurationsNew = () => {
                                                 className="input"
                                                 name="name"
                                                 placeholder="New name"
+                                                ref={inputNewNameRef}
                                                 type="text"
                                             />
                                             <Select

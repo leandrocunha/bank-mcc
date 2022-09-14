@@ -8,6 +8,7 @@ export interface IConfiguration {
     name?: string
     owner?: string
     manager?: string
+    role?: string
     created_at: Date
 }
 

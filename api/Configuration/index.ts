@@ -2,10 +2,12 @@ import { IResponseError } from "../Application";
 import { createFile } from "../utils/fileHandler";
 
 export interface IConfiguration {
-    uuid: string;
-    author: string;
-    type: string;
-    application: string;
+    uuid: string
+    application: string
+    type: string
+    name?: string
+    owner?: string
+    manager?: string
     created_at: Date
 }
 
@@ -18,11 +20,18 @@ export interface IResponseSuccess {
 
 const PATH = './data/configurations/'
 
-export const createConfiguration = async (config: IConfiguration): Promise<IResponseError | Function> => {
+export const createConfiguration = async (config: IConfiguration): Promise<IResponseError | IResponseSuccess> => {
 
-    const { uuid, application, author, type } = config;
+    const {
+        uuid,
+        application,
+        type,
+        name,
+        owner,
+        manager
+    } = config;
     
-    if(!application || !author || !type) {
+    if(!uuid || !application || !type) {
         return {
             statusText: 'error',
             statusCode: 200,
@@ -35,6 +44,7 @@ export const createConfiguration = async (config: IConfiguration): Promise<IResp
     return {
         statusText: 'success',
         statusCode: 200,
-        statusMessage: 'Configuration created with successful!'
+        statusMessage: 'Configuration created with successful!',
+        data: config
     };
 }

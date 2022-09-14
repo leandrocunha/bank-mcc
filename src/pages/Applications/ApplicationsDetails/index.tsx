@@ -4,6 +4,7 @@ import { loadApplication } from "../../../../api/Application"
 import { Button } from "../../../components/Button"
 import { Heading } from "../../../components/Heading"
 import { Page } from "../../../components/Page"
+import { ApplicationConfigVersions } from "../ApplicationConfigVersion"
 import './index.css'
 
 const PATH = './data/snapshots';
@@ -58,26 +59,7 @@ export const ApplicationsDetails = props => {
                             {application?.role ?? ' - '}
                         </div>
                     </header>
-                    <main className="application-details__table">
-                       <header className="application-details__table__header">
-                            <p className="application-details__table__header__column-name">Configuration's versions</p>
-                            <p className="application-details__table__header__column-name">Created at</p>
-                       </header>
-                       <section className="application-details__rows">
-                            <div className="application-details__rows__row">
-                                <p>uuid</p>
-                                <p>12/24/1212</p>
-                            </div>
-                            <div className="application-details__rows__row">
-                                <p>uuid</p>
-                                <p>12/24/1212</p>
-                            </div>
-                            <div className="application-details__rows__row">
-                                <p>uuid</p>
-                                <p>12/24/1212</p>
-                            </div>                            
-                       </section>
-                    </main>
+                    <ApplicationConfigVersions uuid={uuid} />
                 </div>
             </section>
         </Page>

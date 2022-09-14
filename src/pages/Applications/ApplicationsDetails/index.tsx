@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { loadApplication } from "../../../../api/Application"
+import { createSnapshot } from "../../../../api/Configuration"
 import { Button } from "../../../components/Button"
 import { Heading } from "../../../components/Heading"
 import { Page } from "../../../components/Page"
@@ -17,6 +18,16 @@ export const ApplicationsDetails = props => {
     const handleOnclick = () => {
         navigate('/applications')
     }
+
+    const handleApplyOnClick = useCallback(async (version) => {
+        const result = await createSnapshot(JSON.stringify(version), version.application)
+
+        if(result.statusText === 'success') {
+            const snapshot = await loadApplication(`${PATH}/${uuid}-snapshot.json`)
+           
+            setApplication(snapshot.data)
+        }
+    }, [application])
 
     useEffect(() => {
         (async () => {
@@ -59,7 +70,7 @@ export const ApplicationsDetails = props => {
                             {application?.role ?? ' - '}
                         </div>
                     </header>
-                    <ApplicationConfigVersions uuid={uuid} />
+                    <ApplicationConfigVersions onClick={handleApplyOnClick} uuid={uuid} />
                 </div>
             </section>
         </Page>

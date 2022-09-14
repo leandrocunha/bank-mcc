@@ -28,7 +28,7 @@ export const ApplicationConfigVersions = ({ uuid, onClick }) => {
                         <div className="application-details__rows__row" key={version.uuid}>
                             <p>{version.uuid}</p>
                             <p><Timeago date={version.created_at} live={false} /></p>
-                            <p><Button onClick={onClick} label="apply"/></p>
+                            <p><Button onClick={() => onClick(version)} label="apply"/></p>
                         </div>                         
                     )
                 }                           

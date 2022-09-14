@@ -71,6 +71,12 @@ export const createSnapshot = async (fileContent: string, application: string): 
     const newSnapshotFileContent = { ...previousSnapshotFileContent, ...newConfiguration }
 
     await createFile(JSON.stringify(newSnapshotFileContent), `${application}-snapshot.json`, SNAPSHOT_PATH)
+
+    return {
+        statusCode: 200,
+        statusText: 'success',
+        statusMessage: 'Snapshot create with success'
+    }
 }
 
 export const listConfigurations = async (dirPath: string, applicationUuid: string) => {

@@ -72,3 +72,29 @@ export const createSnapshot = async (fileContent: string, application: string): 
 
     await createFile(JSON.stringify(newSnapshotFileContent), `${application}-snapshot.json`, SNAPSHOT_PATH)
 }
+
+export const listConfigurations = async (dirPath: string, applicationUuid: string) => {
+    if(!dirPath) {
+        return {
+            statusText: 'error',
+            statusCode: 200,
+            statusMessage: 'Missing a directory path for configurations.'
+        }
+    }
+    
+    const configurationFiles = await readDir(dirPath);
+    const configurations = await Promise.all(configurationFiles.data.map(async (filename) => {
+        const fileContent = await readFile(`${dirPath}${filename}`);
+        if(fileContent.data){
+            const parsedFileContent = JSON.parse(fileContent.data);
+            if(parsedFileContent.application === applicationUuid) {
+                return parsedFileContent
+            }
+        }
+    }))
+
+    configurations.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+
+
+    return { ...configurationFiles, data: configurations }
+}

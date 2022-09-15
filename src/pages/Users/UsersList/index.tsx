@@ -22,8 +22,13 @@ export function UsersList() {
   };
 
   const loadUsers = async (): Promise<void> => {
-    const files = await fs.readdir("./data/users");
-    setUser(files);
+    try {
+      const files = await fs.readdir("./data/users");
+      setUser(files);
+    } catch (error) {
+      // TO-DO: send it to a logger service and
+      // avoid set empty state
+    }
   };
 
   useEffect(() => {

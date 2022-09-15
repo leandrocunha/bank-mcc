@@ -38,6 +38,7 @@ export function ApplicationRow(props: IProps): JSX.Element {
         <TimeAgo
           className="application-row__created-at"
           date={data?.created_at}
+          live={false}
         />
       )}
     </div>

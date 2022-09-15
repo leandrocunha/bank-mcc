@@ -22,8 +22,13 @@ export function ConfigurationsList() {
   };
 
   const loadConfigurations = async (): Promise<void> => {
-    const files = await fs.readdir("./data/configurations");
-    setConfigurations(files);
+    try {
+      const files = await fs.readdir("./data/configurations");
+      setConfigurations(files);
+    } catch (error) {
+      // TO-DO: send it to a logger service and
+      // avoid set empty state
+    }
   };
 
   useEffect(() => {

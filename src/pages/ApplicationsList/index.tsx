@@ -23,8 +23,13 @@ export function ApplicationsList() {
   };
 
   const loadApplications = async (): Promise<void> => {
-    const files = await fs.readdir("./data/applications");
-    setApplications(files);
+    try {
+      const files = await fs.readdir("./data/applications");
+      setApplications(files);
+    } catch (error) {
+      // TO-DO: send it to a logger service and
+      // avoid set empty state
+    }
   };
 
   useEffect(() => {

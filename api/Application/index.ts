@@ -1,3 +1,4 @@
+import { createSnapshot } from "../Configuration";
 import { createFile, IResponse, readDir, readFile } from "../utils/fileHandler";
 
 export interface IApplication {
@@ -27,7 +28,8 @@ export const createApplication = async (
     };
   }
 
-  await createFile(JSON.stringify(payload), uuid, PATH);
+  await createFile(JSON.stringify(payload), `${uuid}.json`, PATH);
+  await createSnapshot(JSON.stringify(payload), uuid);
 
   return "Application created succesfuly!";
 };

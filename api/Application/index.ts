@@ -44,7 +44,7 @@ export const listApplication = async (dirPath: string) => {
   const applicationFiles = await readDir(dirPath);
   const applications = await Promise.all(
     applicationFiles.data.map(async (file) => {
-      const fileContent = await readFile(`${dirPath}${file}`);
+      const fileContent = await readFile(`${dirPath}/${file}`);
       if (fileContent.data) {
         return JSON.parse(fileContent.data);
       }

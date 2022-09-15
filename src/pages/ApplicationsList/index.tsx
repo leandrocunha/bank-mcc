@@ -1,6 +1,6 @@
-import fs from "vite-plugin-fs/browser";
 import { MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { listApplication } from "../../../api/Application";
 import { ApplicationRow } from "../../components/ApplicationRow";
 import { Button } from "../../components/Button";
 import { Empty } from "../../components/Empty";
@@ -13,6 +13,8 @@ interface SimpleDirent {
   dir: boolean;
 }
 
+const PATH = "./data/applications";
+
 export function ApplicationsList() {
   const navigate = useNavigate();
   const [applications, setApplications] = useState<SimpleDirent[]>([]);
@@ -22,18 +24,11 @@ export function ApplicationsList() {
     navigate("/applications/new");
   };
 
-  const loadApplications = async (): Promise<void> => {
-    try {
-      const files = await fs.readdir("./data/applications");
-      setApplications(files);
-    } catch (error) {
-      // TO-DO: send it to a logger service and
-      // avoid set empty state
-    }
-  };
-
   useEffect(() => {
-    loadApplications();
+    (async () => {
+      const result = await listApplication(PATH);
+      result.data && setApplications(result.data);
+    })();
   }, []);
 
   return (
@@ -45,7 +40,7 @@ export function ApplicationsList() {
       <section className="main-page__section">
         {!!applications.length && (
           <div className="application-row--wrapper">
-            {applications.map((uuid) => (
+            {applications.map(({ uuid }) => (
               <ApplicationRow applicationId={uuid} key={uuid} />
             ))}
           </div>

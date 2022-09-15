@@ -16,7 +16,9 @@ export function ApplicationsNew() {
   const inputRef = createRef<HTMLInputElement>();
   const navigate = useNavigate();
 
-  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleOnSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): void => {
     event.preventDefault();
 
     const name: string | undefined = inputRef.current?.value;
@@ -25,7 +27,7 @@ export function ApplicationsNew() {
 
     if (name && uuid && created_at) {
       const payload: IPayload = { uuid, name, created_at };
-      createApplication(payload);
+      await createApplication(payload);
       navigate("/applications");
     }
   };

@@ -1,74 +1,80 @@
 import { IResponse, readDir, readFile } from "../utils/fileHandler";
 
 export interface IApplication {
-    uuid: string;
-    name: string | undefined;
-    created_at: Date;
+  uuid: string;
+  name: string | undefined;
+  created_at: Date;
 }
 
 export interface IResponseError {
-    statusText: string;
-    statusCode: number;
-    statusMessage: string;
+  statusText: string;
+  statusCode: number;
+  statusMessage: string;
 }
 
-const PATH: string = './data/applications/';
+const PATH = "./data/applications/";
 
-export const createApplication = (payload: IApplication): (IResponseError | Function) => {
-    const { uuid, name, created_at} = payload;
+export const createApplication = (
+  payload: IApplication
+): IResponseError | Function => {
+  const { uuid, name, created_at } = payload;
 
-    if(!uuid && !name && !created_at) {
-        return {
-            statusText: 'error',
-            statusCode: 200,
-            statusMessage: 'Application did not create.'
-        }
-    }
+  if (!uuid && !name && !created_at) {
+    return {
+      statusText: "error",
+      statusCode: 200,
+      statusMessage: "Application did not create.",
+    };
+  }
 
-    return (createFile: Function): string => {
-        createFile(JSON.stringify(payload), uuid, PATH)
-        return 'Application created succesfuly!'
-    }
-}
+  return (createFile: Function): string => {
+    createFile(JSON.stringify(payload), uuid, PATH);
+    return "Application created succesfuly!";
+  };
+};
 
 export const listApplication = async (dirPath: string) => {
-    if(!dirPath) {
-        return {
-            statusText: 'error',
-            statusCode: 200,
-            statusMessage: 'Missing a directory path for applications.'
-        }
-    }
-    
-    const applicationFiles = await readDir(dirPath);
-    const applications = await Promise.all(applicationFiles.data.map(async (file) => {
-        const fileContent = await readFile(`${dirPath}${file}`);
-        if(fileContent.data){
-            return JSON.parse(fileContent.data)
-        }
-    }))
-    
-    return { ...applicationFiles, data: applications }
-}
+  if (!dirPath) {
+    return {
+      statusText: "error",
+      statusCode: 200,
+      statusMessage: "Missing a directory path for applications.",
+    };
+  }
 
-export const loadApplication = async (dirFile: string):Promise<IResponseError | IResponse> => {
-    if(!dirFile) {
-        return {
-            statusText: 'error',
-            statusCode: 200,
-            statusMessage: 'Missing a directory path for the application file.'
-        }
-    }
+  const applicationFiles = await readDir(dirPath);
+  const applications = await Promise.all(
+    applicationFiles.data.map(async (file) => {
+      const fileContent = await readFile(`${dirPath}${file}`);
+      if (fileContent.data) {
+        return JSON.parse(fileContent.data);
+      }
+    })
+  );
 
-    const result = await readFile(dirFile);
+  return { ...applicationFiles, data: applications };
+};
 
-    return { ...result, data: JSON.parse(result.data) }
-}
+export const loadApplication = async (
+  dirFile: string
+): Promise<IResponseError | IResponse> => {
+  if (!dirFile) {
+    return {
+      statusText: "error",
+      statusCode: 200,
+      statusMessage: "Missing a directory path for the application file.",
+    };
+  }
 
-export const updateApplication = (data: IApplication): String => {
-    return 'Application updated succesfuly!'
-}
+  const result = await readFile(dirFile);
 
-export const deleteApplication = (data: IApplication): String => {
-    return 'Application deleted succesfuly!'
-}
+  return { ...result, data: JSON.parse(result.data) };
+};
+
+export const updateApplication = (data: IApplication): string => {
+  return "Application updated succesfuly!";
+};
+
+export const deleteApplication = (data: IApplication): string => {
+  return "Application deleted succesfuly!";
+};

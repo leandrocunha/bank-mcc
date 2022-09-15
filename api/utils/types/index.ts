@@ -1,11 +1,11 @@
 export interface SimpleDirent {
-    name: string;
-    dir: boolean;
-};
+  name: string;
+  dir: boolean;
+}
 
 export interface IReadDirAPIResponse {
-    statusCode: Number
-    statusMessage: String
-    data: SimpleDirent[] | null
-    error: Boolean
+  statusCode: number;
+  statusMessage: string;
+  data: SimpleDirent[] | null;
+  error: boolean;
 }

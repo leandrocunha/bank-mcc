@@ -43,7 +43,7 @@ export const createConfiguration = async (
     return {
       statusText: "error",
       statusCode: 200,
-      statusMessage: "User not create",
+      statusMessage: "Configuration wasn't created",
     };
   }
 

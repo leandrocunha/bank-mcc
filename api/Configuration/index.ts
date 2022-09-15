@@ -40,6 +40,7 @@ export const createConfiguration = async (
   );
 
   console.log(cleanedConfig);
+
   if (!uuid || !application || !type) {
     return {
       statusText: "error",
@@ -66,6 +67,8 @@ export const createSnapshot = async (
   const snapshotFile = await readFile(
     `${SNAPSHOT_PATH}${application}-snapshot.json`
   );
+
+  console.log("71", snapshotFile);
 
   if (snapshotFile.error) {
     await createFile(

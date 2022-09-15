@@ -1,4 +1,4 @@
-import { IResponse, readDir, readFile } from "../utils/fileHandler";
+import { createFile, IResponse, readDir, readFile } from "../utils/fileHandler";
 
 export interface IApplication {
   uuid: string;
@@ -14,12 +14,12 @@ export interface IResponseError {
 
 const PATH = "./data/applications/";
 
-export const createApplication = (
+export const createApplication = async (
   payload: IApplication
-): IResponseError | Function => {
+): Promise<IResponseError | string> => {
   const { uuid, name, created_at } = payload;
 
-  if (!uuid && !name && !created_at) {
+  if (!uuid || !name || !created_at) {
     return {
       statusText: "error",
       statusCode: 200,
@@ -27,10 +27,9 @@ export const createApplication = (
     };
   }
 
-  return (createFile: Function): string => {
-    createFile(JSON.stringify(payload), uuid, PATH);
-    return "Application created succesfuly!";
-  };
+  await createFile(JSON.stringify(payload), uuid, PATH);
+
+  return "Application created succesfuly!";
 };
 
 export const listApplication = async (dirPath: string) => {

@@ -1,16 +1,19 @@
-import { describe, expect, it, vi, vitest } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createUser, IUser } from ".";
 import { IResponseError } from "../Application";
 import { IResponseSuccess } from "../Configuration";
+import { createFile } from "../utils/fileHandler";
+
+vi.mock("../utils/fileHandler", () => ({
+  createFile: vi.fn(() => new Promise((resolve) => resolve("mock"))),
+}));
 
 describe("createUser", () => {
-  let createFile: Function;
   let mockData: IUser;
   let mockResponseSuccess: IResponseSuccess;
   let mockResponseError: IResponseError;
 
   beforeEach(() => {
-    createFile = vitest.fn(() => "mock");
     mockData = {
       uuid: "123-abc-456-def",
       name: "My awesome Application",
@@ -30,23 +33,23 @@ describe("createUser", () => {
     };
   });
 
-  it("should create a user", () => {
-    const result = createUser(mockData)(createFile);
+  it("should create a user", async () => {
+    const result = await createUser(mockData);
     expect(createFile).toHaveBeenCalled();
     expect(result).toStrictEqual(mockResponseSuccess);
   });
 
-  it("should not create a user without name", () => {
-    // mockData = { email: 'leandroscunha@gmail.com' };
-    const result = createUser(mockData)(createFile);
+  it("should not create a user without name", async () => {
+    mockData = { ...mockData, name: null };
+    const result = await createUser(mockData);
     expect(createFile).toHaveBeenCalled();
-    expect(result).toStrictEqual(mockResponseSuccess);
+    expect(result).toStrictEqual(mockResponseError);
   });
 
-  it("should not create a user without email", () => {
-    // mockData = { name: 'Leandro Cunha', email: null };
-    const result = createUser(mockData)(createFile);
+  it("should not create a user without email", async () => {
+    mockData = { ...mockData, email: null };
+    const result = await createUser(mockData);
     expect(createFile).toHaveBeenCalled();
-    expect(result).toStrictEqual(mockResponseSuccess);
+    expect(result).toStrictEqual(mockResponseError);
   });
 });

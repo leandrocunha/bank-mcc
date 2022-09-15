@@ -10,8 +10,13 @@ export function ApplicationConfigVersions({ uuid, onClick }) {
 
   useEffect(() => {
     (async () => {
-      const configurations = await listConfigurations(PATH, uuid);
-      configurations.data && setVersions(configurations.data);
+      try {
+        const configurations = await listConfigurations(PATH, uuid);
+        configurations.data && setVersions(configurations.data);
+      } catch (error) {
+        // TO-DO: send it to a logger service and
+        // avoid set empty state
+      }
     })();
   }, []);
 

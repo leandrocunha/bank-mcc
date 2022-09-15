@@ -15,7 +15,7 @@ const PATH = "./data/applications/";
 export function ApplicationRow(props: IProps): JSX.Element {
   const [data, setData] = useState<IApplication | undefined>();
   const { applicationId } = props;
-  const filepath = `${PATH}${applicationId}`;
+  const filepath = `${PATH}${applicationId}.json`;
 
   useEffect(() => {
     (async () => {

@@ -38,11 +38,13 @@ export function ApplicationsList() {
         <Button label="New Application" onClick={handleOnclick} />
       </header>
       <section className="main-page__section">
-        <div className="application-row--wrapper">
-          {applications.map((uuid) => (
-            <ApplicationRow applicationId={uuid} key={uuid} />
-          ))}
-        </div>
+        {!!applications.length && (
+          <div className="application-row--wrapper">
+            {applications.map((uuid) => (
+              <ApplicationRow applicationId={uuid} key={uuid} />
+            ))}
+          </div>
+        )}
         {!applications.length && (
           <Empty message="There is no Applications yet, try create a few clicking on the button above right." />
         )}

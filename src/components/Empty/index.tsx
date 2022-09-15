@@ -1,15 +1,11 @@
-import './index.css';
+import "./index.css";
 
 interface IEmpty {
-    message: string;
+  message: string;
 }
 
-export const Empty = (props: IEmpty): JSX.Element => {
-    const { message } = props;
+export function Empty(props: IEmpty): JSX.Element {
+  const { message } = props;
 
-    return (
-        <div className="empty">
-            {message}
-        </div>
-    )
+  return <div className="empty">{message}</div>;
 }

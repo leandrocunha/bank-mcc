@@ -2,105 +2,127 @@ import { IResponseError } from "../Application";
 import { createFile, readDir, readFile } from "../utils/fileHandler";
 
 export interface IConfiguration {
-    uuid: string
-    application: string
-    type: string
-    name?: string
-    owner?: string
-    manager?: string
-    role?: string
-    created_at: Date
+  uuid: string;
+  application: string;
+  type: string;
+  name?: string;
+  owner?: string;
+  manager?: string;
+  role?: string;
+  created_at: Date;
 }
 
 export interface IResponseSuccess {
-    statusText: string;
-    statusCode: number;
-    statusMessage: string;
-    data: object
+  statusText: string;
+  statusCode: number;
+  statusMessage: string;
+  data: object;
 }
 
-const PATH = './data/configurations/'
-const SNAPSHOT_PATH = './data/snapshots/'
+const PATH = "./data/configurations/";
+const SNAPSHOT_PATH = "./data/snapshots/";
 
-export const createConfiguration = async (config: IConfiguration): Promise<IResponseError | IResponseSuccess> => {
+export const createConfiguration = async (
+  config: IConfiguration
+): Promise<IResponseError | IResponseSuccess> => {
+  const { uuid, application, type, name, owner, manager } = config;
 
-    const {
-        uuid,
-        application,
-        type,
-        name,
-        owner,
-        manager
-    } = config;
+  const cleanedOwner = owner && owner !== "Owner" ? owner : undefined;
+  const cleanedManager = manager && manager !== "Manager" ? manager : undefined;
+  const cleanedConfig = {
+    ...config,
+    owner: cleanedOwner,
+    manager: cleanedManager,
+  };
 
-    const cleanedOwner = (owner && owner !== 'Owner') ? owner : undefined
-    const cleanedManager = (manager && manager !== 'Manager') ? manager : undefined
-    const cleanedConfig = { ...config, owner: cleanedOwner, manager: cleanedManager }
-    
-    Object.keys(cleanedConfig).forEach(key => cleanedConfig[key] === undefined && delete cleanedConfig[key])
-    
-    console.log(cleanedConfig);
-    if(!uuid || !application || !type) {
-        return {
-            statusText: 'error',
-            statusCode: 200,
-            statusMessage: 'User not create'
-        };
-    }
+  Object.keys(cleanedConfig).forEach(
+    (key) => cleanedConfig[key] === undefined && delete cleanedConfig[key]
+  );
 
-    await createFile(JSON.stringify(cleanedConfig), `${uuid}.json`, PATH);
-    await createSnapshot(JSON.stringify(cleanedConfig), application);
-    
+  console.log(cleanedConfig);
+  if (!uuid || !application || !type) {
     return {
-        statusText: 'success',
-        statusCode: 200,
-        statusMessage: 'Configuration created with successful!',
-        data: config
+      statusText: "error",
+      statusCode: 200,
+      statusMessage: "User not create",
     };
-}
+  }
 
-export const createSnapshot = async (fileContent: string, application: string): Promise<any> => {
-    const snapshotFile = await readFile(`${SNAPSHOT_PATH}${application}-snapshot.json`);
+  await createFile(JSON.stringify(cleanedConfig), `${uuid}.json`, PATH);
+  await createSnapshot(JSON.stringify(cleanedConfig), application);
 
-    if(snapshotFile.error) {
-        await createFile(fileContent, `${application}-snapshot.json`, SNAPSHOT_PATH)
-    }
+  return {
+    statusText: "success",
+    statusCode: 200,
+    statusMessage: "Configuration created with successful!",
+    data: config,
+  };
+};
 
-    const previousSnapshotFileContent = JSON.parse(snapshotFile.data);
-    const newConfiguration = JSON.parse(fileContent);
-    const newSnapshotFileContent = { ...previousSnapshotFileContent, ...newConfiguration }
+export const createSnapshot = async (
+  fileContent: string,
+  application: string
+): Promise<any> => {
+  const snapshotFile = await readFile(
+    `${SNAPSHOT_PATH}${application}-snapshot.json`
+  );
 
-    await createFile(JSON.stringify(newSnapshotFileContent), `${application}-snapshot.json`, SNAPSHOT_PATH)
+  if (snapshotFile.error) {
+    await createFile(
+      fileContent,
+      `${application}-snapshot.json`,
+      SNAPSHOT_PATH
+    );
+  }
 
+  const previousSnapshotFileContent = JSON.parse(snapshotFile.data);
+  const newConfiguration = JSON.parse(fileContent);
+  const newSnapshotFileContent = {
+    ...previousSnapshotFileContent,
+    ...newConfiguration,
+  };
+
+  await createFile(
+    JSON.stringify(newSnapshotFileContent),
+    `${application}-snapshot.json`,
+    SNAPSHOT_PATH
+  );
+
+  return {
+    statusCode: 200,
+    statusText: "success",
+    statusMessage: "Snapshot create with success",
+  };
+};
+
+export const listConfigurations = async (
+  dirPath: string,
+  applicationUuid: string
+) => {
+  if (!dirPath) {
     return {
-        statusCode: 200,
-        statusText: 'success',
-        statusMessage: 'Snapshot create with success'
-    }
-}
+      statusText: "error",
+      statusCode: 200,
+      statusMessage: "Missing a directory path for configurations.",
+    };
+  }
 
-export const listConfigurations = async (dirPath: string, applicationUuid: string) => {
-    if(!dirPath) {
-        return {
-            statusText: 'error',
-            statusCode: 200,
-            statusMessage: 'Missing a directory path for configurations.'
+  const configurationFiles = await readDir(dirPath);
+  const configurations = await Promise.all(
+    configurationFiles.data.map(async (filename) => {
+      const fileContent = await readFile(`${dirPath}${filename}`);
+      if (fileContent.data) {
+        const parsedFileContent = JSON.parse(fileContent.data);
+        if (parsedFileContent.application === applicationUuid) {
+          return parsedFileContent;
         }
-    }
-    
-    const configurationFiles = await readDir(dirPath);
-    const configurations = await Promise.all(configurationFiles.data.map(async (filename) => {
-        const fileContent = await readFile(`${dirPath}${filename}`);
-        if(fileContent.data){
-            const parsedFileContent = JSON.parse(fileContent.data);
-            if(parsedFileContent.application === applicationUuid) {
-                return parsedFileContent
-            }
-        }
-    }))
+      }
+    })
+  );
 
-    configurations.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+  configurations.sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
 
-
-    return { ...configurationFiles, data: configurations }
-}
+  return { ...configurationFiles, data: configurations };
+};

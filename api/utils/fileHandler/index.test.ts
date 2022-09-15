@@ -10,7 +10,7 @@ vi.mock("vite-plugin-fs/browser", () => ({
 
 describe("fileHandler", () => {
   it("should create a file", () => {
-    const mockContent = "My awesome content";
+    const mockContent = JSON.stringify({ uuid: "123-abc-456-cde" });
     const result = createFile(mockContent, "myfilename.json", "./data/");
     expect(fs.writeFile).toHaveBeenCalled();
     expect(result).toBeTruthy();

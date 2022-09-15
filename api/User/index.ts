@@ -1,6 +1,6 @@
 import { IResponseError } from "../Application";
 import { IResponseSuccess } from "../Configuration";
-import { readDir, readFile } from "../utils/fileHandler";
+import { createFile, readDir, readFile } from "../utils/fileHandler";
 
 export interface IUser {
   uuid: string;
@@ -11,7 +11,9 @@ export interface IUser {
 
 const PATH = "./data/users/";
 
-export const createUser = (user: IUser): IResponseError | Function => {
+export const createUser = async (
+  user: IUser
+): Promise<IResponseError | Function> => {
   const { uuid, email, name } = user;
 
   if (!name || !email) {
@@ -22,14 +24,13 @@ export const createUser = (user: IUser): IResponseError | Function => {
     };
   }
 
-  return (createFile: Function): IResponseSuccess => {
-    createFile(JSON.stringify(user), `${uuid}.json`, PATH);
-    return {
-      statusText: "success",
-      statusCode: 200,
-      statusMessage: "User create succesfuly",
-      data: user,
-    };
+  await createFile(JSON.stringify(user), `${uuid}.json`, PATH);
+
+  return {
+    statusText: "success",
+    statusCode: 200,
+    statusMessage: "User create succesfuly",
+    data: user,
   };
 };
 

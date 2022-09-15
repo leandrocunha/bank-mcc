@@ -27,7 +27,7 @@ export function ApplicationsList() {
   useEffect(() => {
     (async () => {
       const result = await listApplication(PATH);
-      result.data && setApplications(result.data);
+      result?.data && setApplications(result.data);
     })();
   }, []);
 
